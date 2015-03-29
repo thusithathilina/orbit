@@ -90,6 +90,6 @@
     </build>
 
     <properties>
-        <version.tomcat>7.0.34</version.tomcat>
+        <version.tomcat>8.0.20</version.tomcat>
     </properties>
 </project>
