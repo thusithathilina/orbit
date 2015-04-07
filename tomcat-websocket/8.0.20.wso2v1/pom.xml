@@ -21,16 +21,22 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.wso2.orbit.apache.tomcat</groupId>
-    <artifactId>tomcat-servlet-api</artifactId>
+    <artifactId>tomcat-websocket</artifactId>
     <version>8.0.20.wso2v1</version>
     <packaging>bundle</packaging>
-    <name>tomcat servlet api orbit bundle</name>
-    <description>Apache Tomcat Servlet API</description>
+    <name>tomcat websocket orbit bundle</name>
+    <description>Apache Tomcat Websocket</description>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-servlet-api</artifactId>
+            <artifactId>tomcat-websocket-api</artifactId>
+            <version>${version.tomcat}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-websocket</artifactId>
             <version>${version.tomcat}</version>
             <optional>true</optional>
         </dependency>
@@ -42,6 +48,7 @@
             <name>WSO2 internal Repository</name>
             <url>http://maven.wso2.org/nexus/content/repositories/releases/</url>
         </repository>
+
         <snapshotRepository>
             <id>wso2.snapshots</id>
             <name>Apache Snapshot Repository</name>
@@ -54,21 +61,27 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.3.6</version>
+		<version>2.3.6</version>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Export-Package>
-                            javax.servlet.*;version="3.1.0"
+			                org.apache.catalina.websocket.*;version="${version.tomcat}",
+                            org.apache.tomcat.websocket.*;version="${version.tomcat}";-split-package:=merge-first,
+                            javax.websocket.*;version="${version.tomcat}";-split-package:=merge-first,
                         </Export-Package>
-                        <Private-Package>
-                        </Private-Package>
                         <Import-Package>
                             *;resolution:=optional
                         </Import-Package>
                         <DynamicImport-Package>*</DynamicImport-Package>
+                        <Include-Resource>
+                            {maven-resources},
+                            @tomcat-embed-websocket-${version.tomcat}.jar!/META-INF/*,
+                        </Include-Resource>
+			<Require-Capability>osgi.extender; filter:="(osgi.extender=osgi.serviceloader.registrar)"</Require-Capability>
+                        <Provide-Capability>osgi.serviceloader; osgi.serviceloader=javax.servlet.ServletContainerInitializer</Provide-Capability>
                     </instructions>
                 </configuration>
             </plugin>
