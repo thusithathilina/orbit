@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.wso2.orbit.org.apache.tomcat</groupId>
+  <artifactId>tomcat</artifactId>
+  <packaging>bundle</packaging>
+  <name>tomcat orbit bundle</name>
+  <version>8.0.20.wso2v1</version>
+  <description>Apache Tomcat</description>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+            <Bundle-Name>${project.artifactId}</Bundle-Name>
+            <Export-Package>!org.apache.tomcat.jdbc.pool.*,
+                            org.apache.jasper.*;version="${version.tomcat}";-split-package:=merge-first,
+                            org.apache.naming.*;version="${version.tomcat}",
+                            org.apache.tomcat.*;version="${version.tomcat}";-split-package:=merge-first,
+                            org.apache.catalina.*;version="${version.tomcat}",
+                            org.apache.coyote.*;version="${version.tomcat}",
+                            org.apache.el.*;version="${version.tomcat}";-split-package:=merge-first,
+                            javax.websocket.*;version="${version.tomcat}";-split-package:=merge-first,</Export-Package>
+            <Private-Package>javax.annotation.*,
+                            javax.ejb.*,
+                            javax.persistence.*,
+                            org.apache.juli.*</Private-Package>
+            <Import-Package>javax.crypto.*,
+                            javax.el;version="${javax.el.range}",
+                            javax.imageio,
+                            javax.mail.*,
+                            javax.management.*,
+                            javax.naming.*,
+                            javax.net.ssl.*,
+                            javax.security.*,
+                            javax.servlet;version="${javax.servlet.range}",
+                            javax.servlet.annotation;version="${javax.servlet.range}",
+                            javax.servlet.descriptor;version="${javax.servlet.range}",
+                            javax.servlet.http;version="${javax.servlet.range}",
+                            javax.servlet.jsp.*;version="${javax.servlet.jsp.range}",
+                            javax.sql,
+                            javax.xml.*,
+                            org.apache.tools.ant.*,
+                            org.eclipse.jdt.*,
+                            org.ietf.jgss.*,
+                            org.w3c.dom,
+                            org.xml.*,
+                            org.apache.tomcat.spdy;resolution:=optional</Import-Package>
+            <DynamicImport-Package>*</DynamicImport-Package>
+            <Include-Resource>{maven-resources},
+                            src/main/resources</Include-Resource>
+            <Bundle-Classpath>patch.jar,.</Bundle-Classpath>
+          </instructions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>2.3</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <transformers>
+                <transformer />
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <distributionManagement>
+    <repository>
+      <id>wso2.releases</id>
+      <name>WSO2 internal Repository</name>
+      <url>http://maven.wso2.org/nexus/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>wso2.snapshots</id>
+      <name>Apache Snapshot Repository</name>
+      <url>http://maven.wso2.org/nexus/content/repositories/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+  <properties>
+    <version.ecj>4.3.1</version.ecj>
+    <version.tomcat>8.0.20</version.tomcat>
+    <javax.servlet.range>[2.6.0, 3.2.0)</javax.servlet.range>
+    <javax.el.range>[2.2.0, 3.1.0)</javax.el.range>
+    <javax.servlet.jsp.range>[2.2.0, 2.4.0)</javax.servlet.jsp.range>
+  </properties>
+</project>
+

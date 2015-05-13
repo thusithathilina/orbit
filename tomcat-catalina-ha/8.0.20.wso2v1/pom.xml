@@ -66,7 +66,20 @@
                             org.apache.catalina.ha.session.*;version="${version.tomcat}"
                         </Export-Package>
                         <Import-Package>
-                            *;resolution:=optional
+                            javax.management,
+                            javax.servlet;version="${javax.version.range}",
+                            javax.servlet.http;version="${javax.version.range}",
+                            org.apache.tomcat.util.*;version="${tomcat.version.range}",
+                            org.apache.catalina.valves;version="${tomcat.version.range}",
+                            org.apache.catalina.util;version="${tomcat.version.range}",
+                            org.apache.catalina.session;version="${tomcat.version.range}",
+                            org.apache.catalina.realm;version="${tomcat.version.range}",
+                            org.apache.catalina.core;version="${tomcat.version.range}",
+                            org.apache.catalina.connector;version="${tomcat.version.range}",
+                            org.apache.catalina.authenticator;version="${tomcat.version.range}",
+                            org.apache.catalina;version="${tomcat.version.range}",
+                            org.apache.catalina.tribes.*;resolution:=optional,
+                            org.apache.juli.logging;resolution:=optional,
                         </Import-Package>
                         <DynamicImport-Package>*</DynamicImport-Package>
                     </instructions>
@@ -75,6 +88,8 @@
         </plugins>
     </build>
     <properties>
+        <tomcat.version.range>[8.0, 9.0)</tomcat.version.range>
+        <javax.servlet.range>[2.6.0, 3.2.0)</javax.servlet.range>
         <version.tomcat>8.0.20</version.tomcat>
     </properties>
 </project>

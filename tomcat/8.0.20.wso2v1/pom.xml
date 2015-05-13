@@ -42,7 +42,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-jasper</artifactId>
+            <artifactId>tomcat-embed-websocket</artifactId>
             <version>${version.tomcat}</version>
             <optional>true</optional>
         </dependency>
@@ -101,7 +101,27 @@
                             org.apache.juli.*
                         </Private-Package>
                         <Import-Package>
-                            *;resolution:=optional
+                            javax.crypto.*,
+                            javax.el;version="${javax.el.range}",
+                            javax.imageio,
+                            javax.mail.*,
+                            javax.management.*,
+                            javax.naming.*,
+                            javax.net.ssl.*,
+                            javax.security.*,
+                            javax.servlet;version="${javax.servlet.range}",
+                            javax.servlet.annotation;version="${javax.servlet.range}",
+                            javax.servlet.descriptor;version="${javax.servlet.range}",
+                            javax.servlet.http;version="${javax.servlet.range}",
+                            javax.servlet.jsp.*;version="${javax.servlet.jsp.range}",
+                            javax.sql,
+                            javax.xml.*,
+                            org.apache.tools.ant.*,
+                            org.eclipse.jdt.*,
+                            org.ietf.jgss.*,
+                            org.w3c.dom,
+                            org.xml.*,
+                            org.apache.tomcat.spdy;resolution:=optional
                         </Import-Package>
                         <DynamicImport-Package>*</DynamicImport-Package>
                         <Include-Resource>
@@ -112,11 +132,32 @@
                     </instructions>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                  <execution>
+                    <phase>package</phase>
+                    <goals>
+                      <goal>shade</goal>
+                    </goals>
+                    <configuration>
+                      <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                      </transformers>
+                    </configuration>
+                  </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
     <properties>
         <version.tomcat>8.0.20</version.tomcat>
         <version.ecj>4.3.1</version.ecj>        
+        <javax.servlet.range>[2.6.0, 3.2.0)</javax.servlet.range>
+        <javax.servlet.jsp.range>[2.2.0, 2.4.0)</javax.servlet.jsp.range>
+        <javax.el.range>[2.2.0, 3.1.0)</javax.el.range>
     </properties>
 </project>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.springframework.ws.wso2</groupId>
+  <artifactId>spring.framework</artifactId>
+  <packaging>bundle</packaging>
+  <name>spring.framework.wso2</name>
+  <version>4.1.6.wso2v1</version>
+  <description>This bundle will export packages from spring framework</description>
+  <url>http://wso2.org</url>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>1.4.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+            <Bundle-Name>${project.artifactId}</Bundle-Name>
+            <Export-Package>org.springframework.*; version=${exp.pkg.version.spring},</Export-Package>
+            <Import-Package>!org.springframework.*; version=${exp.pkg.version.spring},
+                            javax.xml.stream.*; version="1.0.1",
+                            javax.xml.soap; version="1.0.0",
+                            *;resolution:=optional</Import-Package>
+            <DynamicImport-Package>*</DynamicImport-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <transformers>
+                <transformer>
+                  <resource>META-INF/spring.handlers</resource>
+                </transformer>
+                <transformer>
+                  <resource>META-INF/spring.tooling</resource>
+                </transformer>
+                <transformer>
+                  <resource>META-INF/spring.factories</resource>
+                </transformer>
+                <transformer>
+                  <resource>META-INF/spring.schemas</resource>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <distributionManagement>
+    <repository>
+      <id>wso2.releases</id>
+      <name>WSO2 internal Repository</name>
+      <url>http://maven.wso2.org/nexus/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>wso2.snapshots</id>
+      <name>WSO2 Snapshot Repository</name>
+      <url>http://maven.wso2.org/nexus/content/repositories/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+  <properties>
+    <version.spring>4.1.6.RELEASE</version.spring>
+    <exp.pkg.version.spring>4.1.6.RELEASE</exp.pkg.version.spring>
+  </properties>
+</project>
+
