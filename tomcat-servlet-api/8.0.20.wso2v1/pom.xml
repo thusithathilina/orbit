@@ -65,9 +65,6 @@
                         </Export-Package>
                         <Private-Package>
                         </Private-Package>
-                        <Import-Package>
-                            *;resolution:=optional
-                        </Import-Package>
                         <DynamicImport-Package>*</DynamicImport-Package>
                     </instructions>
                 </configuration>
